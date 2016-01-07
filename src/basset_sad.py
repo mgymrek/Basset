@@ -91,7 +91,7 @@ def main():
 
     sad_out = open('%s/sad_table.txt' % options.out_dir, 'w')
 
-    header_cols = ('rsid', 'index', 'score', 'ref', 'alt', 'target', 'ref_pred', 'alt pred', 'sad')
+    header_cols = ('rsid', 'index', 'score', 'ref', 'alt', 'target', 'ref_pred', 'alt_pred', 'sad')
     print >> sad_out, ' '.join(header_cols)
 
     # hash by index snp
