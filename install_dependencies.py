@@ -18,6 +18,7 @@ from src.util.utils import message
 def main():
     usage = 'usage: %prog [options] arg'
     parser = OptionParser(usage)
+    parser.add_option('--no-cuda', dest='no_cuda', default=False, action='store_true', help='Do not install packages only required for CUDA')
     parser.add_option('-w', dest='warn_on_error', default=False, action='store_true', help='Print a warning, rather than exit, if a dependency cannot be installed [Default: %default]')
     (options,args) = parser.parse_args()
 
@@ -44,10 +45,11 @@ def main():
         sys.exit(1)
 
     # install inn
-    message('Installing inn')
-    cmd = 'luarocks install inn'
-    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
-        sys.exit(1)
+    if not options.no_cuda:
+        message('Installing inn')
+        cmd = 'luarocks install inn'
+        if subprocess.call(cmd, shell=True) and not options.warn_on_error:
+            sys.exit(1)
 
     ############################################################
     # luarocks from github
