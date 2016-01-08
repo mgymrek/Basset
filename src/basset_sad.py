@@ -31,6 +31,7 @@ def main():
     parser.add_option('-i', dest='index_snp', default=False, action='store_true', help='SNPs are labeled with their index SNP as column 6 [Default: %default]')
     parser.add_option('-l', dest='seq_len', type='int', default=600, help='Sequence length provided to the model [Default: %default]')
     parser.add_option('-m', dest='min_limit', default=0.1, type='float', help='Minimum heatmap limit [Default: %default]')
+    parser.add_option('--no-fig', dest='no_fig', default=False, action='store_true', help='Do not generate heatmap [Default: %default]')
     parser.add_option('-o', dest='out_dir', default='sad', help='Output directory for tables and plots [Default: %default]')
     parser.add_option('-s', dest='score', default=False, action='store_true', help='SNPs are labeled with scores as column 7 [Default: %default]')
     parser.add_option('-t', dest='targets_file', default=None, help='File specifying target indexes and labels in table format')
@@ -140,7 +141,7 @@ def main():
 
     sad_out.close()
 
-
+    if options.no_fig: sys.exit(1)
     #################################################################
     # plot SAD heatmaps
     #################################################################
