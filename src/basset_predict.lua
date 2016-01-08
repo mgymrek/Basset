@@ -19,6 +19,7 @@ cmd:text()
 cmd:text('Options:')
 cmd:option('-cuda', false, 'Run on GPGPU')
 cmd:option('-norm', false, 'Normalize all targets to a level plane')
+cmd:option('-batchsize', 128, 'Prediction batch size')
 cmd:text()
 opt = cmd:parse(arg)
 
@@ -49,7 +50,7 @@ convnet:load(convnet_params)
 convnet.model:evaluate()
 
 -- measure accuracy on a test set
-local preds = convnet:predict(test_seqs)
+local preds = convnet:predict(test_seqs, opt.batchsize)
 
 if opt.norm then
     -- TEMP! TMP!
