@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import subprocess
+import sys
 
 from dna_io import dna_one_hot
 import vcf
