@@ -11,9 +11,9 @@ import pandas as pd
 from scipy.stats import spearmanr
 import seaborn as sns
 from sklearn import preprocessing
-
+import subprocess
 import dna_io
-from src.util.utils import message, RunCommand
+from util.utils import message
 
 ################################################################################
 # basset_motifs.py
@@ -94,7 +94,7 @@ def main():
     if options.model_hdf5_file is None:
         options.model_hdf5_file = '%s/model_out.h5' % options.out_dir
         torch_cmd = 'basset_motifs_predict.lua %s %s %s' % (model_file, test_hdf5_file, options.model_hdf5_file)
-        if RunCommand(torch_cmd):
+        if subprocess.call(torch_cmd, shell=True):
             message('Error running basset_motifs_predict.lua', 'error')
 
     # load model output
@@ -145,7 +145,7 @@ def main():
     #################################################################
     # run tomtom
     tomtom_cmd = 'tomtom -dist pearson -thresh 0.1 -oc %s/tomtom %s/filters_meme.txt %s' % (options.out_dir, options.out_dir, options.meme_db)
-    if RunCommand(tomtom_cmd):
+    if subprocess.call(tomtom_cmd, shell=True):
         message('Error running tomtom', 'error')
 
     # read in annotations
@@ -587,7 +587,7 @@ def plot_filter_logo(filter_outs, filter_size, seqs, out_prefix, raw_t=0, maxpct
     # make weblogo
     if filter_count > 0:
         weblogo_cmd = 'weblogo %s < %s.fa > %s.eps' % (weblogo_opts, out_prefix, out_prefix)
-        if RunCommand(weblogo_cmd):
+        if subprocess.call(weblogo_cmd, shell=True):
             message('Error running weblogo', 'error')
 
 

@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 from optparse import OptionParser
-import os, subprocess
+import os
 
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import subprocess
 
 from dna_io import dna_one_hot
 import vcf
+from util.utils import message
 
 ################################################################################
 # basset_sad.py
@@ -73,8 +75,8 @@ def main():
 
         options.model_hdf5_file = '%s/model_out.txt' % options.out_dir
         cmd = 'basset_predict.lua -norm %s %s %s/model_in.h5 %s' % (cuda_str, model_th, options.out_dir, options.model_hdf5_file)
-        print cmd
-        subprocess.call(cmd, shell=True)
+        if subprocess.call(cmd, shell=True):
+            message('Error running basset_predict.lua', 'error')
 
     # read in predictions
     seq_preds = []

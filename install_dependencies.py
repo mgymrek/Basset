@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from optparse import OptionParser
 import os
+import subprocess
 import sys
-from src.util.utils import message, CheckProgram, RunCommand
+from src.util.utils import message
 
 ################################################################################
 # install_dependencies.py
@@ -22,7 +23,8 @@ def main():
 
     # confirm luarocks
     message('Checking for luarocks')
-    if not CheckProgram('luarocks'):
+    luarocks_which = subprocess.check_output('which luarocks', shell=True)
+    if luarocks_which == '':
         message('Please install Torch7 first', 'error')
 
     ############################################################
@@ -32,19 +34,19 @@ def main():
     # install luafilesystem
     message('Installing luafilesystem')
     cmd = 'luarocks install luafilesystem'
-    if RunCommand(cmd) and not options.warn_on_error:
+    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
         sys.exit(1)
 
     # install dpnn
     message('Installing dpnn')
     cmd = 'luarocks install dpnn'
-    if RunCommand(cmd) and not options.warn_on_error:
+    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
         sys.exit(1)
 
     # install inn
     message('Installing inn')
     cmd = 'luarocks install inn'
-    if RunCommand(cmd) and not options.warn_on_error:
+    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
         sys.exit(1)
 
     ############################################################
@@ -56,14 +58,14 @@ def main():
     # install torch-hdf5
     cmd = 'git clone https://github.com/deepmind/torch-hdf5.git'
     message('Installing torch-hdf5')
-    if RunCommand(cmd) and not options.warn_on_error:
+    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
         sys.exit(1)
 
     os.chdir('torch-hdf5')
 
     cmd = 'luarocks make'
     message('Installing make')
-    if RunCommand(cmd) and not options.warn_on_error:
+    if subprocess.call(cmd, shell=True) and not options.warn_on_error:
         sys.exit(1)
 
     os.chdir('..')
